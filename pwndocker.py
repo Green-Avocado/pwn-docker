@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import subprocess
 from optparse import OptionParser
 
@@ -21,17 +22,23 @@ binary = args[0]
 libc = options.libc
 ld = options.ld
 
-cmd = ["docker", "run", "--rm", "-it"]
-cmd.append("debian:stable-slim")
-cmd.append("/setup.sh")
-cmd.append(binary)
+runstring = "cd /mnt;"
 
 if libc and ld:
-    cmd.append(libc)
-    cmd.append(ld)
+    runstring += " ln -s {} /lib/x64_64-linux-gnu/libc.so.6;".format(libc)
+    runstring += " ln -s {} /lib/x64_64-linux-gnu/ld-linux-x86-64.so.2;".format(ld)
 elif libc or ld:
     parser.error("libc and ld must be provided together")
     exit(1)
 
-docker = subprocess.run(cmd)
+runstring += " ./{};".format(binary)
+
+cmd = ["docker", "run", "--rm"]
+cmd.append("-it")
+cmd.extend(["--name", "pwndocker"])
+cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
+cmd.append("debian:stable-slim")
+cmd.extend(["/bin/bash", "-c", runstring])
+
+subprocess.run(cmd)
 
