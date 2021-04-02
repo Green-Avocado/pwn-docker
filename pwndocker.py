@@ -48,7 +48,7 @@ cmd.append("pwndocker")
 cmd.extend(["/bin/bash", "-c", runstring])
 
 docker = None
-signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGINT, sigint_handler)
 
 docker = subprocess.run(cmd)
 
