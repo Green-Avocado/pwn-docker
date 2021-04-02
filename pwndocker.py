@@ -31,7 +31,7 @@ elif libc or ld:
     parser.error("libc and ld must be provided together")
     exit(1)
 
-runstring += " ./{};".format(binary)
+runstring += " socat TCP-LISTEN:1337 EXEC:'./{}';".format(binary)
 
 cmd = ["docker", "run", "--rm"]
 cmd.append("-it")
