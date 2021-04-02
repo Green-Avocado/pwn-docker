@@ -22,7 +22,7 @@ binary = args[0]
 libc = options.libc
 ld = options.ld
 
-runstring = "cd /mnt;"
+runstring = ""
 
 if libc and ld:
     runstring += " ln -s {} /lib/x64_64-linux-gnu/libc.so.6;".format(libc)
@@ -31,13 +31,13 @@ elif libc or ld:
     parser.error("libc and ld must be provided together")
     exit(1)
 
-runstring += " socat TCP-LISTEN:1337 EXEC:'./{}';".format(binary)
+runstring += " socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{}';".format(binary)
 
 cmd = ["docker", "run", "--rm"]
-cmd.append("-it")
 cmd.extend(["--name", "pwndocker"])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
-cmd.append("debian:stable-slim")
+cmd.extend(["--publish", "1337:1337/tcp"])
+cmd.append("pwndocker")
 cmd.extend(["/bin/bash", "-c", runstring])
 
 subprocess.run(cmd)
