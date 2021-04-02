@@ -30,8 +30,8 @@ ld = options.ld
 runstring = ""
 
 if libc and ld:
-    runstring += "/tmp/ln-static {} /lib/x86_64-linux-gnu/libc.so.6;".format(libc)
-    runstring += "/tmp/ln-static {} /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2;".format(ld)
+    runstring += "/tmp/ln-static /mnt/{} /lib/x86_64-linux-gnu/libc.so.6;".format(libc)
+    runstring += "/tmp/ln-static /mnt/{} /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2;".format(ld)
 elif libc or ld:
     parser.error("libc and ld must be provided together")
     exit(1)
