@@ -6,9 +6,7 @@ import signal
 from optparse import OptionParser
 
 def sigint_handler(sig, frame):
-    if docker:
-        docker.terminate()
-        subprocess.run(["docker", "container", "stop", "pwndocker"])
+    subprocess.run(["docker", "container", "stop", "pwndocker"])
     exit()
 
 usage = "usage: %prog [options] binary"
@@ -49,8 +47,7 @@ cmd.extend(["--publish", "1337:1337/tcp"])
 cmd.append("pwndocker")
 cmd.extend(["/bin/bash", "-c", runstring])
 
-docker = None
 signal.signal(signal.SIGINT, sigint_handler)
 
-docker = subprocess.run(cmd)
+subprocess.run(cmd)
 
