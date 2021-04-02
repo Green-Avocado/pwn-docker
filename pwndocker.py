@@ -32,13 +32,15 @@ ld = options.ld
 runstring = ""
 
 if libc and ld:
-    runstring += " ln -sfr {} /lib/x86_64-linux-gnu/libc.so.6;".format(libc)
-    runstring += " ln -sfr {} /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2;".format(ld)
+    runstring += "LD_PRELOAD=/lib/x86_64-linux-gnu/libc-2.28.so;"
+    runstring += "/lib/x86_64-linux-gnu/ld-2.28.so ln -sfr {} /lib/x86_64-linux-gnu/libc.so.6;".format(libc)
+    runstring += "/lib/x86_64-linux-gnu/ld-2.28.so ln -sfr {} /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2;".format(ld)
+    runstring += "LD_PRELOAD=;"
 elif libc or ld:
     parser.error("libc and ld must be provided together")
     exit(1)
 
-runstring += " socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{}';".format(binary)
+runstring += "socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{}';".format(binary)
 
 cmd = ["docker", "run", "--rm"]
 cmd.extend(["--name", "pwndocker"])
