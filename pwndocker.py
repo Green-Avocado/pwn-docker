@@ -4,6 +4,10 @@ import os
 import subprocess
 from optparse import OptionParser
 
+def sigint_handler(sig, frame):
+    subprocess.run(["docker", "container", "stop", "pwndocker"])
+    exit()
+
 usage = "usage: %prog [options] binary"
 parser = OptionParser(usage=usage)
 parser.add_option("--libc", dest="libc",
@@ -25,8 +29,8 @@ ld = options.ld
 runstring = ""
 
 if libc and ld:
-    runstring += " ln -s {} /lib/x86_64-linux-gnu/libc.so.6;".format(libc)
-    runstring += " ln -s {} /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2;".format(ld)
+    runstring += " ln -sfn {} /lib/x86_64-linux-gnu/libc.so.6;".format(libc)
+    runstring += " ln -sfn {} /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2;".format(ld)
 elif libc or ld:
     parser.error("libc and ld must be provided together")
     exit(1)
@@ -41,4 +45,5 @@ cmd.append("pwndocker")
 cmd.extend(["/bin/bash", "-c", runstring])
 
 subprocess.run(cmd)
+print(test)
 
