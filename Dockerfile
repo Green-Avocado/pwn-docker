@@ -1,4 +1,4 @@
-FROM debian:stable-slim
+FROM debian:8.10-slim
 
 RUN apt-get update
 RUN apt-get install -y socat
