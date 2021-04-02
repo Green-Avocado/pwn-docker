@@ -2,8 +2,8 @@
 
 gcc ln-static.c -o ln-static --static
 
-docker image rm pwndocker
-docker build -t pwndocker .
+sudo docker image rm pwndocker
+sudo docker build -t pwndocker .
 
 ln -sfr pwndocker.py ~/bin/pwndocker
 

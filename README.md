@@ -10,6 +10,8 @@ cd pwndocker
 sudo ./setup.sh
 ```
 
+Do not run setup as root.
+
 ## Usage:
 
 Run `sudo pwndocker [binary]` from your working directory.
