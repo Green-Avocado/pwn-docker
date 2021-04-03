@@ -1,7 +1,7 @@
 FROM debian:8.10-slim
 
 RUN apt-get update
-RUN apt-get install -y socat
+RUN apt-get install -y socat gdbserver
 COPY ln-static /tmp
 WORKDIR /mnt
 
