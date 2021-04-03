@@ -31,13 +31,7 @@ binary = args[0]
 libc = options.libc
 ld = options.ld
 
-runstring = ""
-
-
-if libc and ld:
-    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
-    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(ld), "/lib/x86_64-linux-gnu/ld-2.19.so"])
-elif libc or ld:
+if (not libc and ld) or (libc and not ld):
     parser.error("libc and ld must be provided together")
     exit(1)
 
@@ -55,4 +49,8 @@ cmd.append("pwndocker")
 signal.signal(signal.SIGINT, sigint_handler)
 
 subprocess.run(cmd)
+
+if libc and ld:
+    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
+    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(ld), "/lib/x86_64-linux-gnu/ld-2.19.so"])
 
