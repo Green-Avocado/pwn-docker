@@ -11,7 +11,7 @@ def signal_handler(sig, frame):
     exit()
 
 def dockerExec(exec_cmd):
-    subprocess.run(["docker", "container", "exec", "pwndocker"].extend(exec_cmd))
+    subprocess.run(["docker", "container", "exec", "pwndocker"] + exec_cmd)
 
 usage = "usage: %prog [options] binary"
 parser = OptionParser(usage=usage)
