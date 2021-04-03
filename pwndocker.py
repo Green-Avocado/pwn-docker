@@ -39,7 +39,7 @@ elif libc or ld:
 
 runstring += "gdbserver --multi localhost:13337 & "
 runstring += "socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{}' & ".format(binary)
-runstring += "sh; "
+runstring += "/bin/bash; "
 
 cmd = ["docker", "run", "--rm"]
 cmd.extend(["--name", "pwndocker"])
