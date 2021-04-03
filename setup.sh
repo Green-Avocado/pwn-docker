@@ -6,5 +6,5 @@ sudo docker image rm pwndocker
 sudo docker build -t pwndocker .
 
 mkdir -p ~/bin
-cp pwndocker.py ~/bin/pwndocker
+install pwndocker.py ~/bin/pwndocker
 
