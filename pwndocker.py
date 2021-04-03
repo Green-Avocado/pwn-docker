@@ -5,10 +5,13 @@ import subprocess
 import signal
 from optparse import OptionParser
 
-def sigint_handler(sig, frame):
+def signal_handler(sig, frame):
     print("\nShutting down container...\n")
     subprocess.run(["docker", "container", "stop", "pwndocker"])
     exit()
+
+def dockerExec(exec_cmd):
+    subprocess.run(["docker", "container", "exec", "pwndocker"].extend(exec_cmd))
 
 usage = "usage: %prog [options] binary"
 parser = OptionParser(usage=usage)
@@ -28,28 +31,28 @@ binary = args[0]
 libc = options.libc
 ld = options.ld
 
-runstring = ""
-
-if libc and ld:
-    runstring += "/tmp/ln-static $(pwd)/{} /lib/x86_64-linux-gnu/libc.so.6; ".format(libc)
-    runstring += "/tmp/ln-static $(pwd)/{} /lib/x86_64-linux-gnu/ld-2.19.so; ".format(ld)
-elif libc or ld:
+if (not libc and ld) or (libc and not ld):
     parser.error("libc and ld must be provided together")
     exit(1)
 
-runstring += "gdbserver --multi localhost:13337 & "
-runstring += "socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{}' & ".format(binary)
-runstring += "/bin/bash; "
-
-cmd = ["docker", "run", "--rm"]
+cmd = ["docker", "run", "--rm", "--detach"]
 cmd.extend(["--name", "pwndocker"])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
 cmd.extend(["--publish", "1337:1337/tcp"])
 cmd.extend(["--publish", "13337:13337/tcp"])
+cmd.append("-it")
 cmd.append("pwndocker")
-cmd.extend(["/bin/bash", "-c", runstring])
 
-signal.signal(signal.SIGINT, sigint_handler)
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
 
 subprocess.run(cmd)
+
+if libc and ld:
+    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
+    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(ld), "/lib/x86_64-linux-gnu/ld-2.19.so"])
+
+dockerExec(["gdbserver", "--multi", "localhost:13337"])
+dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'./{}'".format(binary)])
+subprocess.run(["docker", "attach", "pwndocker"])
 
