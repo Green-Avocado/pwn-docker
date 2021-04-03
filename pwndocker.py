@@ -6,6 +6,7 @@ import signal
 from optparse import OptionParser
 
 def sigint_handler(sig, frame):
+    print("\nShutting down container...\n")
     subprocess.run(["docker", "container", "stop", "pwndocker"])
     exit()
 
