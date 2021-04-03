@@ -10,6 +10,9 @@ def sigint_handler(sig, frame):
     subprocess.run(["docker", "container", "stop", "pwndocker"])
     exit()
 
+def dockerExec(exec_cmd):
+    subprocess.run(["docker", "container", "exec", "pwndocker"].extend(exec_cmd))
+
 usage = "usage: %prog [options] binary"
 parser = OptionParser(usage=usage)
 parser.add_option("--libc", dest="libc",
@@ -30,23 +33,24 @@ ld = options.ld
 
 runstring = ""
 
+
 if libc and ld:
-    runstring += "/tmp/ln-static $(pwd)/{} /lib/x86_64-linux-gnu/libc.so.6; ".format(libc)
-    runstring += "/tmp/ln-static $(pwd)/{} /lib/x86_64-linux-gnu/ld-2.19.so; ".format(ld)
+    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
+    dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(ld), "/lib/x86_64-linux-gnu/ld-2.19.so"])
 elif libc or ld:
     parser.error("libc and ld must be provided together")
     exit(1)
 
-runstring += "gdbserver --multi localhost:13337 & "
-runstring += "socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{}'; ".format(binary)
+dockerExec(["gdbserver", "--multi", "localhost:13337"])
+dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'./{}'".format(binary)])
 
 cmd = ["docker", "run", "--rm"]
 cmd.extend(["--name", "pwndocker"])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
 cmd.extend(["--publish", "1337:1337/tcp"])
 cmd.extend(["--publish", "13337:13337/tcp"])
+cmd.append("-it")
 cmd.append("pwndocker")
-cmd.extend(["/bin/bash", "-c", runstring])
 
 signal.signal(signal.SIGINT, sigint_handler)
 
