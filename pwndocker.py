@@ -35,9 +35,6 @@ if (not libc and ld) or (libc and not ld):
     parser.error("libc and ld must be provided together")
     exit(1)
 
-dockerExec(["gdbserver", "--multi", "localhost:13337"])
-dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'./{}'".format(binary)])
-
 cmd = ["docker", "run", "--rm"]
 cmd.extend(["--name", "pwndocker"])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
@@ -53,4 +50,7 @@ subprocess.run(cmd)
 if libc and ld:
     dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
     dockerExec(["/tmp/ln-static", "$(pwd)/{}".format(ld), "/lib/x86_64-linux-gnu/ld-2.19.so"])
+
+dockerExec(["gdbserver", "--multi", "localhost:13337"])
+dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'./{}'".format(binary)])
 
