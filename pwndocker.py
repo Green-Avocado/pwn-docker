@@ -38,7 +38,7 @@ elif libc or ld:
     exit(1)
 
 runstring += "gdbserver --multi localhost:13337 & "
-runstring += "socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{} & echo $!' & ".format(binary)
+runstring += "socat TCP-LISTEN:1337,fork,reuseaddr EXEC:'./{}' & ".format(binary)
 runstring += "sh; "
 
 cmd = ["docker", "run", "--rm"]
