@@ -18,5 +18,7 @@ Run `sudo pwndocker [binary]` from your working directory.
 
 Optionally pass a libc and dynamic linker through the `--libc=LIBC` and `--ld=LD` options.
 
-Connect using `nc localhost 1337`.
+Connect using `$ nc localhost 1337`.
+
+Connect to the gdbserver using `> target extended-remote localhost:13337`
 
