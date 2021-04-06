@@ -49,7 +49,7 @@ signal.signal(signal.SIGTERM, signal_handler)
 subprocess.run(cmd)
 
 if libc and ld:
-    dockerExec(["/tmp/ln-static", "/mnt/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.7"])
+    dockerExec(["/tmp/ln-static", "/mnt/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
     dockerExec(["/tmp/ln-static", "/mnt/{}".format(ld), "/lib/x86_64-linux-gnu/ld-2.19.so"])
 
 dockerExec(["gdbserver", "--multi", "localhost:13337"])
