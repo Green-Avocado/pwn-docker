@@ -7,7 +7,7 @@ from optparse import OptionParser
 usage = "usage: %prog LIBC"
 parser = OptionParser(usage=usage)
 
-args = parser.parse_args()
+(options, args) = parser.parse_args()
 
 if len(args) == 0:
     parser.error("Missing libc argument")
