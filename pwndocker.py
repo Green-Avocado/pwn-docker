@@ -18,8 +18,17 @@ def dockerExec(exec_cmd, detach=False):
 
 usage = "usage: %prog BINARY [GLIBC DEB]"
 parser = OptionParser(usage=usage)
+parser.add_option(
+        "-v", "--version",
+        action="store_true", dest="version",
+        help="display version information"
+        )
 
 (options, args) = parser.parse_args()
+
+if options.version:
+    print("pwndocker 2.0.0")
+    exit()
 
 if len(args) == 0:
     parser.error("Missing binary")
