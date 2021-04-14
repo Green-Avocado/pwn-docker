@@ -10,30 +10,25 @@ def signal_handler(sig, frame):
     subprocess.run(["docker", "container", "stop", "pwndocker"])
     exit()
 
-def dockerExec(exec_cmd):
-    subprocess.run(["docker", "container", "exec", "--detach", "pwndocker"] + exec_cmd)
+def dockerExec(exec_cmd, detach=False):
+    dockerExec_cmd = ["docker", "container", "exec"]
+    if detach:
+        dockerExec_cmd.append("--detach")
+    subprocess.run(dockerExec_cmd + ["pwndocker"] + exec_cmd)
 
-usage = "usage: %prog [OPTIONS] BINARY"
+usage = "usage: %prog BINARY [GLIBC DEB]"
 parser = OptionParser(usage=usage)
-parser.add_option("--libc", dest="libc",
-                  help="libc to copy to docker", metavar="LIBC")
-parser.add_option("--ld", dest="ld",
-                  help="dynamic linker to copy to docker", metavar="LD")
 
-(options, args) = parser.parse_args()
+args = parser.parse_args()
 
 if len(args) == 0:
     parser.error("Missing binary")
-elif len(args) > 1:
+elif len(args) == 2:
+    deb = args[1]
+elif len(args) > 2:
     parser.error("Too many arguments")
 
 binary = args[0]
-libc = options.libc
-ld = options.ld
-
-if (not libc and ld) or (libc and not ld):
-    parser.error("libc and ld must be provided together")
-    exit(1)
 
 cmd = ["docker", "run", "--rm", "--detach"]
 cmd.extend(["--name", "pwndocker"])
@@ -49,11 +44,12 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 subprocess.run(cmd)
 
-if libc and ld:
-    dockerExec(["/tmp/ln-static", "/mnt/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
-    dockerExec(["/tmp/ln-static", "/mnt/{}".format(ld), "/lib64/ld-linux-x86-64.so.2"])
+if deb:
+    dockerExec(["dpkg-deb", "-R", deb, "/tmp"])
+    dockerExec(["sh", "-c", "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
+    dockerExec(["/tmp/ln-static", "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/lib64/ld-linux-x86-64.so.2"])
 
-dockerExec(["gdbserver", "--multi", "localhost:13337"])
-dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)])
+dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
+dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
 subprocess.run(["docker", "attach", "pwndocker"])
 
