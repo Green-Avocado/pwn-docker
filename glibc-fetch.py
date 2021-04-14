@@ -6,8 +6,17 @@ from optparse import OptionParser
 
 usage = "usage: %prog LIBC"
 parser = OptionParser(usage=usage)
+parser.add_option(
+        "-v", "--version",
+        action="store_true", dest="version",
+        help="display version information"
+        )
 
 (options, args) = parser.parse_args()
+
+if options.version:
+    print("glibc-fetch 1.0.0")
+    exit()
 
 if len(args) == 0:
     parser.error("Missing libc argument")
