@@ -51,7 +51,7 @@ subprocess.run(cmd)
 
 if libc and ld:
     dockerExec(["/tmp/ln-static", "/mnt/{}".format(libc), "/lib/x86_64-linux-gnu/libc.so.6"])
-    dockerExec(["/tmp/ln-static", "/mnt/{}".format(ld), "/lib/x86_64-linux-gnu/ld-2.19.so"])
+    dockerExec(["/tmp/ln-static", "/mnt/{}".format(ld), "/lib64/ld-linux-x86-64.so.2"])
 
 dockerExec(["gdbserver", "--multi", "localhost:13337"])
 dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)])
