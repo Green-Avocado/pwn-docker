@@ -7,7 +7,7 @@ Create a lightweight docker container for solving CTF challenges
 ```
 git clone https://github.com/Green-Avocado/pwndocker.git
 cd pwndocker
-sudo ./setup.sh
+./setup.sh
 ```
 
 Do not run setup as root.
