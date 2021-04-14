@@ -19,7 +19,7 @@ def dockerExec(exec_cmd, detach=False):
 usage = "usage: %prog BINARY [GLIBC DEB]"
 parser = OptionParser(usage=usage)
 
-args = parser.parse_args()
+(options, args) = parser.parse_args()
 
 if len(args) == 0:
     parser.error("Missing binary")
