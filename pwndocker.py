@@ -13,7 +13,7 @@ def signal_handler(sig, frame):
 def dockerExec(exec_cmd):
     subprocess.run(["docker", "container", "exec", "--detach", "pwndocker"] + exec_cmd)
 
-usage = "usage: %prog [options] binary"
+usage = "usage: %prog [OPTIONS] BINARY"
 parser = OptionParser(usage=usage)
 parser.add_option("--libc", dest="libc",
                   help="libc to copy to docker", metavar="LIBC")
