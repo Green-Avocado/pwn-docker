@@ -14,15 +14,26 @@ Do not run setup as root.
 
 ## Usage:
 
-Run `sudo pwndocker [binary]` from your working directory.
+### Download glibc deb file
 
-Optionally pass a libc and dynamic linker through the `--libc=LIBC` and `--ld=LD` options.
+Use `glibc-fetch LIBC` to download a matching deb file from the Ubuntu archives.
 
-Connect using:
+### Create docker container
+
+Run `sudo pwndocker BINARY` from your working directory.
+The binary should be given as a relative path.
+
+Optionally pass a glibc deb file as a second argument.
+
+### Connect to docker container
+
+Connect to socat using:
 
 ```
 $ nc localhost 1337
 ```
+
+### Connect to gdbserver
 
 Connect to the gdbserver using:
 ```
