@@ -9,13 +9,13 @@ parser = OptionParser(usage=usage)
 parser.add_option(
         "-v", "--version",
         action="store_true", dest="version",
-        help="display version information"
+        help="display version information and exit"
         )
 
 (options, args) = parser.parse_args()
 
 if options.version:
-    print("glibc-fetch 1.0.0")
+    print("glibc-fetch 1.0.1")
     exit()
 
 if len(args) == 0:
