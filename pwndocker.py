@@ -16,7 +16,9 @@ def dockerExec(exec_cmd, detach=False):
     dockerExec_cmd = ["docker", "container", "exec"]
     if detach:
         dockerExec_cmd.append("--detach")
-    subprocess.run(dockerExec_cmd + ["pwndocker"] + exec_cmd, stdout=subprocess.DEVNULL)
+    subprocess.run(dockerExec_cmd + ["pwndocker"] + exec_cmd,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL)
 
 
 
@@ -71,7 +73,9 @@ if deb:
     dockerExec(["dpkg-deb", "-R", deb, "/tmp"])
     dockerExec(["sh", "-c", "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
     dockerExec(["sh", "-c", "mv /tmp/lib32/* /lib/i386-linux-gnu/"])
-    dockerExec(["/tmp/ln-static", "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/lib64/ld-linux-x86-64.so.2"])
+    dockerExec(["/tmp/ln-static",
+        "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "/lib64/ld-linux-x86-64.so.2"])
     dockerExec(["/tmp/ln-static", "/lib/i386-linux-gnu/ld-linux.so.2", "/lib/ld-linux.so.2"])
 
 
