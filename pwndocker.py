@@ -12,13 +12,20 @@ def signal_handler(sig, frame):
     subprocess.run(["docker", "container", "stop", "pwndocker"])
     exit()
 
-def dockerExec(exec_cmd, detach=False):
+def dockerExec(exec_cmd, detach=False, quiet=True):
     dockerExec_cmd = ["docker", "container", "exec"]
+
     if detach:
         dockerExec_cmd.append("--detach")
-    subprocess.run(dockerExec_cmd + ["pwndocker"] + exec_cmd,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL)
+
+    fullcmd = dockerExec_cmd + ["pwndocker"] + exec_cmd
+
+    if quiet:
+        subprocess.run(fullcmd,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL)
+    else:
+        subprocess.run(fullcmd)
 
 
 
@@ -70,7 +77,7 @@ subprocess.run(cmd)
 
 
 if deb:
-    dockerExec(["dpkg-deb", "-R", deb, "/tmp"])
+    dockerExec(["dpkg-deb", "-R", deb, "/tmp"], quiet=False)
     dockerExec(["sh", "-c", "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
     dockerExec(["sh", "-c", "mv /tmp/lib32/* /lib/i386-linux-gnu/"])
     dockerExec(["/tmp/ln-static",
