@@ -16,7 +16,7 @@ def dockerExec(exec_cmd, detach=False):
     dockerExec_cmd = ["docker", "container", "exec"]
     if detach:
         dockerExec_cmd.append("--detach")
-    subprocess.run(dockerExec_cmd + ["pwndocker"] + exec_cmd)
+    subprocess.run(dockerExec_cmd + ["pwndocker"] + exec_cmd, stdout=subprocess.DEVNULL)
 
 
 
