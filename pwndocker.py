@@ -5,6 +5,8 @@ import subprocess
 import signal
 from optparse import OptionParser
 
+
+
 def signal_handler(sig, frame):
     print("\nShutting down container...\n")
     subprocess.run(["docker", "container", "stop", "pwndocker"])
@@ -15,6 +17,8 @@ def dockerExec(exec_cmd, detach=False):
     if detach:
         dockerExec_cmd.append("--detach")
     subprocess.run(dockerExec_cmd + ["pwndocker"] + exec_cmd)
+
+
 
 usage = "usage: %prog BINARY [GLIBC DEB]"
 parser = OptionParser(usage=usage)
@@ -30,6 +34,10 @@ if options.version:
     print("pwndocker 2.0.1")
     exit()
 
+
+
+deb = None
+
 if len(args) == 0:
     parser.error("Missing binary")
 elif len(args) == 2:
@@ -38,6 +46,13 @@ elif len(args) > 2:
     parser.error("Too many arguments")
 
 binary = args[0]
+
+
+
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
+
+
 
 cmd = ["docker", "run", "--rm", "--detach"]
 cmd.extend(["--name", "pwndocker"])
@@ -48,15 +63,16 @@ cmd.extend(["--cap-add=SYS_PTRACE"])
 cmd.extend(["-it"])
 cmd.extend(["pwndocker"])
 
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGTERM, signal_handler)
-
 subprocess.run(cmd)
+
+
 
 if deb:
     dockerExec(["dpkg-deb", "-R", deb, "/tmp"])
     dockerExec(["sh", "-c", "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
     dockerExec(["/tmp/ln-static", "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/lib64/ld-linux-x86-64.so.2"])
+
+
 
 dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
 dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
