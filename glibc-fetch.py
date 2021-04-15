@@ -5,6 +5,8 @@ import re
 import subprocess
 from optparse import OptionParser
 
+
+
 usage = "usage: %prog LIBC"
 parser = OptionParser(usage=usage)
 parser.add_option(
@@ -25,10 +27,14 @@ elif len(args) > 1:
 
 libc_filename = args[0]
 
+
+
 try:
+    # get libc version
     libc = open(libc_filename, 'rb').read()
     libc_ver = re.search(b'GNU C Library \(Ubuntu GLIBC (.+?)\)', libc).group(1).decode()
 
+    # get architecture info
     fileinfo = subprocess.check_output(['file', '-b', libc_filename]).split()[1].decode()
     if fileinfo == "64-bit":
         arch = ""
@@ -40,10 +46,12 @@ except:
     print("fatal error")
     exit()
 
-url = "https://launchpad.net/ubuntu/+archive/primary/+files/libc6{}_{}_amd64.deb".format(arch, libc_ver)
 
+
+url = "https://launchpad.net/ubuntu/+archive/primary/+files/libc6{}_{}_amd64.deb".format(arch, libc_ver)
 print(url)
 
+# download deb package
 r = requests.get(url)
 open('glibc.deb', 'wb').write(r.content)
 

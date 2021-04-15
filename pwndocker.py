@@ -63,6 +63,7 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 
 
+# start docker container with ptrace enabled, ports 1337 and 13337 exposed, current dir mounted as RO
 cmd = ["docker", "run", "--rm", "--detach"]
 cmd.extend(["--name", "pwndocker"])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
@@ -78,16 +79,27 @@ subprocess.run(cmd)
 
 if deb:
     dockerExec(["dpkg-deb", "-R", deb, "/tmp"], quiet=False)
-    dockerExec(["sh", "-c", "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
-    dockerExec(["sh", "-c", "mv /tmp/lib32/* /lib/i386-linux-gnu/"])
+
+    # move glibc files
+    dockerExec(["sh", "-c",
+        "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
+    dockerExec(["sh", "-c",
+        "mv /tmp/lib32/* /lib/i386-linux-gnu/"])
+
+    # link ld
     dockerExec(["/tmp/ln-static",
         "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
         "/lib64/ld-linux-x86-64.so.2"])
-    dockerExec(["/tmp/ln-static", "/lib/i386-linux-gnu/ld-linux.so.2", "/lib/ld-linux.so.2"])
+    dockerExec(["/tmp/ln-static",
+        "/lib/i386-linux-gnu/ld-linux.so.2",
+        "/lib/ld-linux.so.2"])
 
 
 
+# start gdbserver and socat
 dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
 dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
+
+# attach to docker shell
 subprocess.run(["docker", "attach", "pwndocker"])
 
