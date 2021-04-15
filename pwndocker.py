@@ -70,9 +70,9 @@ subprocess.run(cmd)
 if deb:
     dockerExec(["dpkg-deb", "-R", deb, "/tmp"])
     dockerExec(["sh", "-c", "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
-    dockerExec(["mv", "-r", "/tmp/lib32", "/"])
-    dockerExec(["mv", "/tmp/lib/ld-linux.so.2", "/lib"])
+    dockerExec(["sh", "-c", "mv /tmp/lib32/* /lib/i386-linux-gnu/"])
     dockerExec(["/tmp/ln-static", "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/lib64/ld-linux-x86-64.so.2"])
+    dockerExec(["/tmp/ln-static", "/lib/i318-linux-gnu/ld-linux.so.2", "/lib/ld-linux.so.2"])
 
 
 
