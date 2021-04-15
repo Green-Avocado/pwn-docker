@@ -20,18 +20,18 @@ def dockerExec(exec_cmd, detach=False):
 
 
 
-usage = "usage: %prog BINARY [GLIBC DEB]"
+usage = "usage: %prog [OPTIONS] BINARY [GLIBC DEB]"
 parser = OptionParser(usage=usage)
 parser.add_option(
         "-v", "--version",
         action="store_true", dest="version",
-        help="display version information"
+        help="display version information and exit"
         )
 
 (options, args) = parser.parse_args()
 
 if options.version:
-    print("pwndocker 2.0.1")
+    print("pwndocker 2.1.0")
     exit()
 
 
@@ -70,6 +70,8 @@ subprocess.run(cmd)
 if deb:
     dockerExec(["dpkg-deb", "-R", deb, "/tmp"])
     dockerExec(["sh", "-c", "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
+    dockerExec(["mv", "-r", "/tmp/lib32", "/"])
+    dockerExec(["mv", "/tmp/lib/ld-linux.so.2", "/lib"])
     dockerExec(["/tmp/ln-static", "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", "/lib64/ld-linux-x86-64.so.2"])
 
 
