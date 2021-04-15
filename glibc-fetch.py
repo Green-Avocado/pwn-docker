@@ -33,7 +33,7 @@ try:
     if fileinfo == "64-bit":
         arch = ""
     elif fileinfo == "32-bit":
-        arch = "-1386"
+        arch = "-i386"
     else:
         raise
 except:
