@@ -40,7 +40,7 @@ Connect to the gdbserver using:
 (gdb) target extended-remote localhost:13337
 ```
 
-### Uninstall
+## Uninstall
 
 From the directory created during setup:
 
