@@ -12,7 +12,7 @@ cd pwndocker
 
 Do not run setup as root.
 
-## Usage:
+## Usage
 
 ### Download glibc deb file
 
