@@ -29,12 +29,24 @@ def dockerExec(exec_cmd, detach=False, quiet=True):
 
 
 
-usage = "usage: %prog [OPTIONS] BINARY [GLIBC DEB]"
+usage = "usage: %prog [OPTIONS] BINARY [DEB]"
 parser = OptionParser(usage=usage)
 parser.add_option(
         "-v", "--version",
         action="store_true", dest="version",
         help="display version information and exit"
+        )
+parser.add_option(
+        "-p", "--port", dest="socatPort",
+        help="set socat port", metavar="PORT"
+        )
+parser.add_option(
+        "-g", "--gdb", dest="gdbserverPort",
+        help="set gdbserver port", metavar="PORT"
+        )
+parser.add_option(
+        "-n", "--name", dest="dockerName",
+        help="set container name", metavar="NAME"
         )
 
 (options, args) = parser.parse_args()
