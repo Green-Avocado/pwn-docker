@@ -68,9 +68,9 @@ elif len(args) > 2:
 
 binary = args[0]
 
-dockerName = "pwndocker"
-socatPort = "1337"
-gdbserverPort = "13337"
+dockerName = options.dockerName or "pwndocker"
+socatPort = options.socatPort or "1337"
+gdbserverPort = options.gdbserverPort or "13337"
 
 
 
