@@ -9,7 +9,7 @@ from optparse import OptionParser
 
 def signal_handler(sig, frame):
     print("\nShutting down container...\n")
-    subprocess.run(["docker", "container", "stop", "pwndocker"])
+    subprocess.run(["docker", "container", "stop", dockerName])
     exit()
 
 def dockerExec(exec_cmd, detach=False, quiet=True):
@@ -18,7 +18,7 @@ def dockerExec(exec_cmd, detach=False, quiet=True):
     if detach:
         dockerExec_cmd.append("--detach")
 
-    fullcmd = dockerExec_cmd + ["pwndocker"] + exec_cmd
+    fullcmd = dockerExec_cmd + [dockerName] + exec_cmd
 
     if quiet:
         subprocess.run(fullcmd,
@@ -56,6 +56,10 @@ elif len(args) > 2:
 
 binary = args[0]
 
+dockerName = "pwndocker"
+socatPort = "1337"
+gdbserverPort = "13337"
+
 
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -65,10 +69,10 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 # start docker container with ptrace enabled, ports 1337 and 13337 exposed, current dir mounted as RO
 cmd = ["docker", "run", "--rm", "--detach"]
-cmd.extend(["--name", "pwndocker"])
+cmd.extend(["--name", dockerName])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
-cmd.extend(["--publish", "1337:1337/tcp"])
-cmd.extend(["--publish", "13337:13337/tcp"])
+cmd.extend(["--publish", "{}:1337/tcp".format(socatPort)])
+cmd.extend(["--publish", "{}:13337/tcp".format(gdbserverPort)])
 cmd.extend(["--cap-add=SYS_PTRACE"])
 cmd.extend(["-it"])
 cmd.extend(["pwndocker"])
@@ -101,5 +105,5 @@ dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
 dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
 
 # attach to docker shell
-subprocess.run(["docker", "attach", "pwndocker"])
+subprocess.run(["docker", "attach", dockerName])
 
