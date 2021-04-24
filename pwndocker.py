@@ -52,7 +52,7 @@ parser.add_option(
 (options, args) = parser.parse_args()
 
 if options.version:
-    print("pwndocker 2.1.0")
+    print("pwndocker 2.2.0")
     exit()
 
 
