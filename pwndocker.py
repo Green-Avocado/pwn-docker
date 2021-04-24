@@ -37,15 +37,18 @@ parser.add_option(
         help="display version information and exit"
         )
 parser.add_option(
-        "-p", "--port", dest="socatPort",
+        "-p", "--port",
+        dest="socatPort",
         help="set socat port", metavar="PORT"
         )
 parser.add_option(
-        "-g", "--gdb", dest="gdbserverPort",
+        "-g", "--gdb",
+        dest="gdbserverPort",
         help="set gdbserver port", metavar="PORT"
         )
 parser.add_option(
-        "-n", "--name", dest="dockerName",
+        "-n", "--name",
+        dest="dockerName",
         help="set container name", metavar="NAME"
         )
 
