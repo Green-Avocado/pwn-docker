@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-gcc ln-static.c -o ./docker/ln-static --static
+gcc ./src/ln-static.c -o ./docker/ln-static --static
 
 sudo docker image rm pwndocker
 sudo docker build -t pwndocker ./docker
