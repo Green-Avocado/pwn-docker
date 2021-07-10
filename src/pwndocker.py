@@ -13,7 +13,7 @@ def signal_handler(sig, frame):
     exit()
 
 def dockerExec(exec_cmd, detach=False, quiet=True):
-    dockerExec_cmd = ["docker", "container", "exec", "--workdir /mnt"]
+    dockerExec_cmd = ["docker", "container", "exec"]
 
     if detach:
         dockerExec_cmd.append("--detach")
@@ -117,7 +117,7 @@ if deb:
 
 # start gdbserver and socat
 dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
-dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'{}'".format(binary)], detach=True)
+dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
 
 # attach to docker shell
 subprocess.run(["docker", "attach", dockerName])
