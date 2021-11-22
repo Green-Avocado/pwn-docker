@@ -6,7 +6,7 @@ default: install
 
 .PHONY: install
 install: build _install
-	sudo docker import pwndocker.tar
+	sudo docker load --input pwndocker.tar
 
 .PHONY: _install
 _install:
