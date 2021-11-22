@@ -16,8 +16,6 @@ makepkg -si
 make install
 ```
 
-Do not run setup as root.
-
 ## Usage
 
 ### Download glibc deb file
