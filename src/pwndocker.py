@@ -7,10 +7,13 @@ from optparse import OptionParser
 
 
 
-def signal_handler(sig, frame):
+def graceful_exit():
     print("\nShutting down container...\n")
     subprocess.run(["docker", "container", "stop", containerId])
     exit()
+
+def signal_handler(sig, frame):
+    graceful_exit()
 
 def dockerExec(exec_cmd, detach=False, quiet=True):
     dockerExec_cmd = ["docker", "container", "exec"]
@@ -97,28 +100,31 @@ containerId = subprocess.check_output(cmd).strip()
 
 
 
-if deb:
-    dockerExec(["dpkg-deb", "-R", deb, "/tmp"], quiet=False)
+try:
+    if deb:
+        dockerExec(["dpkg-deb", "-R", deb, "/tmp"], quiet=False)
 
-    # move glibc files
-    dockerExec(["sh", "-c",
-        "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
-    dockerExec(["sh", "-c",
-        "mv /tmp/lib32/* /lib/i386-linux-gnu/"])
+        # move glibc files
+        dockerExec(["sh", "-c",
+            "mv /tmp/lib/x86_64-linux-gnu/* /lib/x86_64-linux-gnu/"])
+        dockerExec(["sh", "-c",
+            "mv /tmp/lib32/* /lib/i386-linux-gnu/"])
 
-    # link ld
-    dockerExec(["/tmp/ln-static",
-        "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
-        "/lib64/ld-linux-x86-64.so.2"])
-    dockerExec(["/tmp/ln-static",
-        "/lib/i386-linux-gnu/ld-linux.so.2",
-        "/lib/ld-linux.so.2"])
+        # link ld
+        dockerExec(["/tmp/ln-static",
+            "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+            "/lib64/ld-linux-x86-64.so.2"])
+        dockerExec(["/tmp/ln-static",
+            "/lib/i386-linux-gnu/ld-linux.so.2",
+            "/lib/ld-linux.so.2"])
 
 
 
-# start gdbserver and socat
-dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
-dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
+    # start gdbserver and socat
+    dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
+    dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
 
-# attach to docker shell
-subprocess.run(["docker", "attach", containerId])
+    # attach to docker shell
+    subprocess.run(["docker", "attach", containerId])
+except:
+    graceful_exit()
