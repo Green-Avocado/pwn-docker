@@ -26,7 +26,6 @@ pkgver() {
 build() {
   cd "$srcdir/$pkgname"
   make DESTDIR="$pkgdir" PREFIX="/usr" build
-  chmod 644 pwndocker.tar
 }
 
 package() {
