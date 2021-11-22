@@ -11,10 +11,10 @@ install:
 .PHONY: pre_remove
 pre_remove: remove_image
 
-.PHONY: build_image:
+.PHONY: build_image
 build_image:
 	sudo docker build -t pwndocker ./docker
 
-.PHONY: remove_image:
+.PHONY: remove_image
 remove_image:
 	sudo docker image rm pwndocker
