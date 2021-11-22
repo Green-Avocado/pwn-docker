@@ -12,12 +12,9 @@ install:
 pre_remove: remove_image
 
 .PHONY: build_image:
-build_image: docker/ln-static
+build_image:
 	sudo docker build -t pwndocker ./docker
 
 .PHONY: remove_image:
 remove_image:
 	sudo docker image rm pwndocker
-
-docker/ln-static: src/ln-static.c
-	gcc src/ln-static.c -o docker/ln-static --static
