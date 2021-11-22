@@ -6,8 +6,8 @@ default: install
 
 .PHONY: install
 install: build install_image
-	install -Dm755 ./src/pwndocker.py ${DESTDIR}${PREFIX}/pwndocker
-	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}${PREFIX}/glibc-fetch
+	install -Dm755 ./src/pwndocker.py ${DESTDIR}${PREFIX}/bin/pwndocker
+	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}${PREFIX}/bin/glibc-fetch
 
 .PHONY: build
 build: build_image
