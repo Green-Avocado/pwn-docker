@@ -26,7 +26,6 @@ pkgver() {
 build() {
   cd "$srcdir/$pkgname"
   make DESTDIR="$pkgdir" PREFIX="/usr" build
-  sudo docker image rm pwndocker
 }
 
 package() {
