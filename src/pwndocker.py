@@ -18,7 +18,7 @@ def dockerExec(exec_cmd, detach=False, quiet=True):
     if detach:
         dockerExec_cmd.append("--detach")
 
-    fullcmd = dockerExec_cmd + [dockerName] + exec_cmd
+    fullcmd = dockerExec_cmd + [containerId] + exec_cmd
 
     if quiet:
         subprocess.run(fullcmd,
