@@ -20,7 +20,13 @@ pkgver() {
   git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+build() {
+  cd "$srcdir/$pkgname"
+  docker build --output type=tar,dest=pwndocker.tar -t pwndocker ./docker
+}
+
 package() {
   cd "$srcdir/$pkgname"
+  docker import pwndocker.tar
   make VERSION=$pkgver DESTDIR="$pkgdir" install
 }

@@ -1,15 +1,21 @@
 DESTDIR ?= ~/bin
 
-.PHONY: pre_install
-pre_install: build_image
+.PHONY: default
+default: install
 
 .PHONY: install
-install:
+install: pre_install install
+
+.PHONY: _install
+_install:
 	install -Dm755 ./src/pwndocker.py ${DESTDIR}/pwndocker
 	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}/glibc-fetch
 
-.PHONY: pre_remove
-pre_remove: remove_image
+.PHONY: pre_install
+pre_install: build_image
+
+.PHONY: remove
+remove: remove_image
 
 .PHONY: build_image
 build_image:
