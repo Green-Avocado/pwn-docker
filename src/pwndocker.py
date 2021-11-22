@@ -8,8 +8,9 @@ from optparse import OptionParser
 
 
 def graceful_exit():
-    print("\nShutting down container...\n")
-    subprocess.run(["docker", "container", "stop", containerId])
+    if containerId:
+        print("\nShutting down container...\n")
+        subprocess.run(["docker", "container", "stop", containerId])
     exit()
 
 def signal_handler(sig, frame):
