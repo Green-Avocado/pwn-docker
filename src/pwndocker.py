@@ -93,7 +93,7 @@ cmd.extend(["--cap-add=SYS_PTRACE"])
 cmd.extend(["-it"])
 cmd.extend(["pwndocker"])
 
-containerId = subprocess.check_output(cmd)
+containerId = subprocess.check_output(cmd).strip()
 
 
 
