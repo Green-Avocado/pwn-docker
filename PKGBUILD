@@ -26,11 +26,11 @@ pkgver() {
 build() {
   cd "$srcdir/$pkgname"
   make DESTDIR="$pkgdir" PREFIX="/usr" build
+  sudo docker image rm pwndocker
 }
 
 package() {
   cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" PREFIX="/usr" _install
   install -Dm644 ./pwndocker.tar "$pkgdir/usr/share/$pkgname"
-  install -Dm755 ./src/pwndocker.py "$pkgdir"/usr/bin/pwndocker
-  install -Dm755 ./src/glibc-fetch.py "$pkgdir"/usr/bin/glibc-fetch
 }
