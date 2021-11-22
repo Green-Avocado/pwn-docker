@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM debian:8.10-slim as build-env
-LABEL pwndocker-buildenv
+LABEL build=pwndocker
 
 RUN apt-get update && apt-get install -y \
     gcc
@@ -15,6 +15,7 @@ RUN gcc /src/ln-static.c --static -o /build/ln-static
 
 
 FROM debian:8.10-slim
+LABEL build=pwndocker
 
 RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install -y \

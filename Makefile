@@ -29,4 +29,4 @@ remove_image:
 pwndocker.tar:
 	sudo docker build --tag pwndocker ./docker
 	sudo docker export --output=pwndocker.tar pwndocker
-	sudo docker image pwndocker pwndocker-buildenv
+	docker image rm --filter label=stage=builder
