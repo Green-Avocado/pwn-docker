@@ -32,5 +32,5 @@ build() {
 package() {
   cd "$srcdir/$pkgname"
   make DESTDIR="$pkgdir" PREFIX="/usr" _install
-  install -Dm644 pwndocker.tar "$pkgdir/usr/share/$pkgname"
+  install -Dm644 pwndocker.tar "$pkgdir/usr/share/$pkgname/pwndocker.tar"
 }
