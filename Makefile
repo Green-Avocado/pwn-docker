@@ -1,12 +1,13 @@
-DESTDIR ?= ~/bin
+DESTDIR :=
+PREFIX := /usr/local
 
 .PHONY: default
 default: install
 
 .PHONY: install
-install: build
-	install -Dm755 ./src/pwndocker.py ${DESTDIR}/pwndocker
-	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}/glibc-fetch
+install: build install_image
+	install -Dm755 ./src/pwndocker.py ${DESTDIR}${PREFIX}/pwndocker
+	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}${PREFIX}/glibc-fetch
 
 .PHONY: build
 build: build_image
