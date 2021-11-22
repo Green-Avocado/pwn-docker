@@ -20,5 +20,4 @@ remove:
 pwndocker.tar:
 	sudo docker build --tag pwndocker ./docker
 	sudo docker save --output=pwndocker.tar pwndocker
-	sudo docker image prune --filter label=build=pwndocker
 	sudo docker image rm pwndocker
