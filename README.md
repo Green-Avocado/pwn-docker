@@ -4,6 +4,10 @@ Create a lightweight docker container for solving CTF challenges
 
 ## Setup
 
+### Prerequisites
+
+Requires that docker is installed and running.
+
 ### ArchLinux
 
 ```
