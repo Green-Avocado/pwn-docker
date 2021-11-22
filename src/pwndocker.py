@@ -93,7 +93,7 @@ cmd.extend(["--cap-add=SYS_PTRACE"])
 cmd.extend(["-it"])
 cmd.extend(["pwndocker"])
 
-subprocess.run(cmd)
+containerId = subprocess.check_output(cmd)
 
 
 
@@ -121,4 +121,4 @@ dockerExec(["gdbserver", "--multi", "localhost:13337"], detach=True)
 dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(binary)], detach=True)
 
 # attach to docker shell
-subprocess.run(["docker", "attach", dockerName])
+subprocess.run(["docker", "attach", containerId])
