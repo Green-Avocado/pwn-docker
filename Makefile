@@ -20,7 +20,7 @@ build_image: pwndocker.tar
 
 .PHONY: install_image
 install_image: build_image
-	docker import pwndocker.tar
+	sudo docker import pwndocker.tar
 
 .PHONY: remove_image
 remove_image:
@@ -29,4 +29,4 @@ remove_image:
 pwndocker.tar:
 	sudo docker build --tag pwndocker ./docker
 	sudo docker save --output=pwndocker.tar pwndocker
-	docker image prune --filter label="build=pwndocker"
+	sudo docker image prune --filter label="build=pwndocker"
