@@ -5,9 +5,10 @@ FROM debian:8.10-slim as build-env
 RUN apt-get update && apt-get install -y \
     gcc
 
-RUN mkdir /build
+RUN mkdir /build/
 
-COPY src/ln-static.c /src
+COPY src/ln-static.c /src/
+
 RUN gcc /src/ln-static.c --static -o /build/ln-static
 
 
@@ -21,5 +22,7 @@ RUN apt-get update && apt-get install -y \
     ltrace \
     strace \
     socat
-COPY --from=build-env /build/ln-static /tmp
-WORKDIR /mnt
+
+COPY --from=build-env /build/ln-static /tmp/
+
+WORKDIR /mnt/
