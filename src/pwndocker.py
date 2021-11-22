@@ -127,5 +127,5 @@ try:
 
     # attach to docker shell
     subprocess.run(["docker", "attach", containerId])
-except:
+except Exception as e:
     graceful_exit()
