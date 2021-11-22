@@ -71,7 +71,7 @@ elif len(args) > 2:
 
 binary = args[0]
 
-dockerName = options.dockerName or "pwndocker"
+dockerName = options.dockerName or None
 socatPort = options.socatPort or "1337"
 gdbserverPort = options.gdbserverPort or "13337"
 
@@ -84,7 +84,8 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 # start docker container with ptrace enabled, ports 1337 and 13337 exposed, current dir mounted as RO
 cmd = ["docker", "run", "--rm", "--detach"]
-cmd.extend(["--name", dockerName])
+if dockerName:
+    cmd.extend(["--name", dockerName])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(os.path.abspath('.'))])
 cmd.extend(["--publish", "{}:1337/tcp".format(socatPort)])
 cmd.extend(["--publish", "{}:13337/tcp".format(gdbserverPort)])
@@ -121,4 +122,3 @@ dockerExec(["socat", "TCP-LISTEN:1337,fork,reuseaddr", "EXEC:'/mnt/{}'".format(b
 
 # attach to docker shell
 subprocess.run(["docker", "attach", dockerName])
-
