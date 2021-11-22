@@ -10,7 +10,10 @@ depends=(
   'python3'
   'docker'
 )
-makedepends=('git')
+makedepends=(
+  'git'
+  'sudo'
+)
 install="$pkgname.install"
 source=("$pkgname::git+https://github.com/Green-Avocado/pwndocker.git")
 sha256sums=("SKIP")
@@ -22,11 +25,10 @@ pkgver() {
 
 build() {
   cd "$srcdir/$pkgname"
-  docker build --output type=tar,dest=pwndocker.tar -t pwndocker ./docker
+  make DESTDIR="$pkgdir" build
 }
 
 package() {
   cd "$srcdir/$pkgname"
-  docker import pwndocker.tar
-  make VERSION=$pkgver DESTDIR="$pkgdir" install
+  make DESTDIR="$pkgdir" install
 }
