@@ -5,25 +5,16 @@ PREFIX := /usr/local
 default: install
 
 .PHONY: install
-install: build install_image
+install: build
+	sudo docker import pwndocker.tar
 	install -Dm755 ./src/pwndocker.py ${DESTDIR}${PREFIX}/bin/pwndocker
 	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}${PREFIX}/bin/glibc-fetch
 
 .PHONY: build
-build: build_image
+build: pwndocker.tar
 
 .PHONY: remove
-remove: remove_image
-
-.PHONY: build_image
-build_image: pwndocker.tar
-
-.PHONY: install_image
-install_image: build_image
-	sudo docker import pwndocker.tar
-
-.PHONY: remove_image
-remove_image:
+remove:
 	sudo docker image rm pwndocker
 
 pwndocker.tar:
