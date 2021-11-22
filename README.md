@@ -4,13 +4,17 @@ Create a lightweight docker container for solving CTF challenges
 
 ## Setup
 
+### ArchLinux
+
 ```
-git clone https://github.com/Green-Avocado/pwndocker.git
-cd pwndocker
-./setup.sh
+makepkg -si
 ```
 
-Do not run setup as root.
+### Other
+
+```
+make install
+```
 
 ## Usage
 
@@ -47,4 +51,3 @@ From the directory created during setup:
 ```
 ./uninstall.sh
 ```
-

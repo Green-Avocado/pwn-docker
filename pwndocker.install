@@ -1,0 +1,11 @@
+post_install() {
+  sudo docker load --input /usr/share/pwndocker/pwndocker.tar
+}
+
+post_upgrade() {
+  sudo docker load --input /usr/share/pwndocker/pwndocker.tar
+}
+
+post_remove() {
+  sudo docker image rm pwndocker
+}
