@@ -9,7 +9,7 @@ from optparse import OptionParser
 
 def signal_handler(sig, frame):
     print("\nShutting down container...\n")
-    subprocess.run(["docker", "container", "stop", dockerName])
+    subprocess.run(["docker", "container", "stop", containerId])
     exit()
 
 def dockerExec(exec_cmd, detach=False, quiet=True):
