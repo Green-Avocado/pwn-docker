@@ -5,7 +5,7 @@ PREFIX := /usr/local
 default: install
 
 .PHONY: install
-install: build
+install: build _install
 	sudo docker import pwndocker.tar
 	install -Dm755 ./src/pwndocker.py ${DESTDIR}${PREFIX}/bin/pwndocker
 	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}${PREFIX}/bin/glibc-fetch

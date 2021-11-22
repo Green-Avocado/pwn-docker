@@ -30,5 +30,7 @@ build() {
 
 package() {
   cd "$srcdir/$pkgname"
-  make DESTDIR="$pkgdir" PREFIX="/usr" install
+  install -Dm644 ./pwndocker.tar "$pkgdir/usr/share/$pkgname"
+  install -Dm755 ./src/pwndocker.py "$pkgdir"/usr/bin/pwndocker
+  install -Dm755 ./src/glibc-fetch.py "$pkgdir"/usr/bin/glibc-fetch
 }
