@@ -46,8 +46,6 @@ Connect to the gdbserver using:
 
 ## Uninstall
 
-From the directory created during setup:
-
 ```
-./uninstall.sh
+make remove
 ```
