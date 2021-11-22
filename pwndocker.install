@@ -1,0 +1,9 @@
+pre_install() {
+  cd "$srcdir/$pkgname"
+  make VERSION=$pkgver DESTDIR="$pkgdir" pre_install
+}
+
+pre_remove() {
+  cd "$srcdir/$pkgname"
+  make VERSION=$pkgver DESTDIR="$pkgdir" pre_remove
+}
