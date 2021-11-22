@@ -8,8 +8,8 @@ install: build
 	install -Dm755 ./src/pwndocker.py ${DESTDIR}/pwndocker
 	install -Dm755 ./src/glibc-fetch.py ${DESTDIR}/glibc-fetch
 
-.PHONY: build 
-pre_install: build_image
+.PHONY: build
+build: build_image
 
 .PHONY: remove
 remove: remove_image
