@@ -11,7 +11,7 @@ depends=(
   'docker'
 )
 makedepends=('git')
-install='$pkgname.install'
+install="$pkgname.install"
 source=("$pkgname::git+https://github.com/Green-Avocado/pwndocker.git")
 sha256sums=("SKIP")
 
