@@ -18,9 +18,9 @@ build: pwndocker.tar
 
 .PHONY: remove
 remove:
-	sudo docker image rm pwndocker
 	rm ${DESTDIR}${PREFIX}/bin/pwndocker
 	rm ${DESTDIR}${PREFIX}/bin/glibc-fetch
+	sudo docker image rm pwndocker
 
 pwndocker.tar:
 	sudo docker build --tag pwndocker ./docker
