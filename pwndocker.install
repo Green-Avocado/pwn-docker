@@ -1,11 +1,11 @@
 post_install() {
-	sudo docker import /usr/share/pwndocker/pwndocker.tar
+  sudo docker load /usr/share/pwndocker/pwndocker.tar
 }
 
 post_upgrade() {
-	sudo docker import /usr/share/pwndocker/pwndocker.tar
+  sudo docker load /usr/share/pwndocker/pwndocker.tar
 }
 
 post_remove() {
-	sudo docker image rm pwndocker
+  sudo docker image rm pwndocker
 }
