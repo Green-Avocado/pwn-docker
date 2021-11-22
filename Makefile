@@ -27,4 +27,6 @@ remove_image:
 	sudo docker image rm pwndocker
 
 pwndocker.tar:
-	sudo docker build --output type=tar,dest=pwndocker.tar -t pwndocker ./docker
+	sudo docker build --tag pwndocker ./docker
+	sudo docker export --output=pwndocker.tar pwndocker
+	sudo docker image pwndocker pwndocker-buildenv

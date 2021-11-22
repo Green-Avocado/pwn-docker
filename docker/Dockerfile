@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM debian:8.10-slim as build-env
+LABEL pwndocker-buildenv
 
 RUN apt-get update && apt-get install -y \
     gcc
