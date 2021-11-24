@@ -5,7 +5,7 @@ PREFIX := /usr/local
 default: install
 
 .PHONY: install
-install: build _install
+install: pwndocker.tar _install
 	sudo docker load --input pwndocker.tar
 
 .PHONY: _install
