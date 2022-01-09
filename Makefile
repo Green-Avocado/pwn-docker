@@ -7,8 +7,8 @@ default: build
 
 
 .PHONY: install
-install: pwndocker.tar _install
-	sudo docker load --input pwndocker.tar
+install: build/pwndocker.tar _install
+	sudo docker load --input build/pwndocker.tar
 
 .PHONY: _install
 _install:
@@ -26,12 +26,12 @@ remove:
 
 
 .PHONY: build
-build: pwndocker.tar
+build: build/pwndocker.tar
 
 
 
-pwndocker.tar: docker/Dockerfile docker/.dockerignore docker/src/ln-static.c
+build/pwndocker.tar: docker/Dockerfile docker/.dockerignore docker/src/ln-static.c
 	sudo docker build --tag pwndocker docker/
-	sudo docker save --output=pwndocker.tar pwndocker
-	sudo chmod 644 pwndocker.tar
+	sudo docker save --output=build/pwndocker.tar pwndocker
+	sudo chmod 644 build/pwndocker.tar
 	sudo docker image rm pwndocker
