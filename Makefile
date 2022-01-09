@@ -1,5 +1,4 @@
-DESTDIR :=
-PREFIX := /usr/local
+DESTDIR := /usr/local
 
 .PHONY: default
 default: build
@@ -12,15 +11,15 @@ install: pwndocker.tar _install
 
 .PHONY: _install
 _install:
-	install -Dm755 src/pwndocker.py ${DESTDIR}${PREFIX}/bin/pwndocker
-	install -Dm755 src/glibc-fetch.py ${DESTDIR}${PREFIX}/bin/glibc-fetch
+	install -Dm755 src/pwndocker.py ${DESTDIR}/bin/pwndocker
+	install -Dm755 src/glibc-fetch.py ${DESTDIR}/bin/glibc-fetch
 
 
 
 .PHONY: remove
 remove:
-	rm ${DESTDIR}${PREFIX}/bin/pwndocker
-	rm ${DESTDIR}${PREFIX}/bin/glibc-fetch
+	rm ${DESTDIR}/bin/pwndocker
+	rm ${DESTDIR}/bin/glibc-fetch
 	sudo docker image rm pwndocker
 
 

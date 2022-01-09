@@ -25,12 +25,12 @@ pkgver() {
 
 build() {
   cd "$srcdir/$pkgname"
-  make DESTDIR="$pkgdir" PREFIX="/usr" build
+  make DESTDIR="$pkgdir/usr" build
 }
 
 package() {
   cd "$srcdir/$pkgname"
-  make DESTDIR="$pkgdir" PREFIX="/usr" _install
+  make DESTDIR="$pkgdir/usr" _install
   install -Dm644 pwndocker.tar "$pkgdir/usr/share/$pkgname/pwndocker.tar"
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
