@@ -45,7 +45,7 @@ cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(path.ab
 cmd.extend(["--publish", "{}:1337/tcp".format(socatPort)])
 cmd.extend(["--publish", "{}:13337/tcp".format(gdbserverPort)])
 cmd.extend(["--cap-add=SYS_PTRACE"])
-cmd.extend(["ghcr.io/green-avocado/pwndocker:latest"])
+cmd.extend(["ghcr.io/green-avocado/pwndocker:main"])
 cmd.extend(args)
 
 execvp("docker", cmd)
