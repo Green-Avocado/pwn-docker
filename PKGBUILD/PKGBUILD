@@ -1,5 +1,5 @@
 # Maintainer: Green-Avocado <greenavocado@protonmail.com>
-pkgname='pwndocker'
+pkgname=pwndocker
 pkgver=2.2.0
 pkgrel=1
 pkgdesc="Create a lightweight docker container for solving CTF challenges."
@@ -10,11 +10,7 @@ depends=(
   'python3'
   'docker'
 )
-makedepends=(
-  'git'
-  'sudo'
-)
-install="$pkgname.install"
+makedepends=('git')
 source=("$pkgname::git+https://github.com/Green-Avocado/pwndocker.git")
 sha256sums=("SKIP")
 
@@ -23,14 +19,8 @@ pkgver() {
   git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
-build() {
-  cd "$srcdir/$pkgname"
-  make DESTDIR="$pkgdir/usr" build
-}
-
 package() {
   cd "$srcdir/$pkgname"
-  make DESTDIR="$pkgdir/usr" _install
-  install -Dm644 pwndocker.tar "$pkgdir/usr/share/$pkgname/pwndocker.tar"
+  make DESTDIR="$pkgdir/usr" install
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
