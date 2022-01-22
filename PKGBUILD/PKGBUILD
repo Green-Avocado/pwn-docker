@@ -1,6 +1,6 @@
 # Maintainer: Green-Avocado <greenavocado@protonmail.com>
 pkgname=pwndocker
-pkgver=2.2.0
+pkgver=3.0.0
 pkgrel=1
 pkgdesc="Create a lightweight docker container for solving CTF challenges."
 arch=('x86_64')
