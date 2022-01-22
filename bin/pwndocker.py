@@ -38,7 +38,7 @@ socatPort = options.socatPort or "1337"
 gdbserverPort = options.gdbserverPort or "13337"
 
 # start docker container with ptrace enabled, ports 1337 and 13337 exposed, current dir mounted as RO
-cmd = ["docker", "run", "--rm"]
+cmd = ["docker", "run", "--rm", "--tty"]
 if dockerName:
     cmd.extend(["--name", dockerName])
 cmd.extend(["--mount", "type=bind,source={},target=/mnt,readonly".format(path.abspath('.'))])
