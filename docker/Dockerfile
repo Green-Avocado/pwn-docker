@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir /build/
 
-COPY src/ln-static.c /src/
+COPY ln-static.c /src/
 
 RUN gcc /src/ln-static.c --static -o /build/ln-static
 
@@ -25,5 +25,10 @@ RUN apt-get update && apt-get install -y \
     socat
 
 COPY --from=build-env /build/ln-static /tmp/
+COPY entrypoint.sh /tmp/
 
 WORKDIR /mnt/
+
+EXPOSE 1337 13337
+
+ENTRYPOINT ["/tmp/entrypoint.sh"]

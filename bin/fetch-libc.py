@@ -17,7 +17,7 @@ parser.add_option(
 (options, args) = parser.parse_args()
 
 if options.version:
-    print("glibc-fetch 1.1.0")
+    print("fetch-libc 1.1.0")
     exit()
 
 if len(args) == 0:
