@@ -29,4 +29,5 @@ COPY start.sh /tmp/
 
 WORKDIR /mnt/
 
-ENTRYPOINT ["/tmp/start.sh"]
+ENTRYPOINT ["/tmp/entrypoint.sh"]
+CMD ["/tmp/cmd.sh"]
