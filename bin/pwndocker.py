@@ -46,5 +46,6 @@ cmd.extend(["--publish", "{}:1337/tcp".format(socatPort)])
 cmd.extend(["--publish", "{}:13337/tcp".format(gdbserverPort)])
 cmd.extend(["--cap-add=SYS_PTRACE"])
 cmd.extend(["pwndocker"])
+cmd.extend(args)
 
 execvp("docker", cmd)
