@@ -30,6 +30,10 @@ jobs:
       id-token: write
 
     steps:
+      - name: downcase image name
+        run: |
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
