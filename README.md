@@ -24,7 +24,7 @@ make install
 
 ### Download glibc deb file
 
-Use `glibc-fetch LIBC` to download a matching deb file from the Ubuntu archives.
+Use `libc-fetch LIBC` to download a matching deb file from the Ubuntu archives.
 
 ### Create docker container
 
