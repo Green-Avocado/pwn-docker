@@ -30,5 +30,6 @@ COPY cmd.sh /tmp/
 
 WORKDIR /mnt/
 
+EXPOSE 1337 13337
+
 ENTRYPOINT ["/tmp/entrypoint.sh"]
-CMD ["/tmp/cmd.sh"]
