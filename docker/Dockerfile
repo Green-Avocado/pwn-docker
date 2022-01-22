@@ -25,7 +25,8 @@ RUN apt-get update && apt-get install -y \
     socat
 
 COPY --from=build-env /build/ln-static /tmp/
-COPY start.sh /tmp/
+COPY entrypoint.sh /tmp/
+COPY cmd.sh /tmp/
 
 WORKDIR /mnt/
 
