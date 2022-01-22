@@ -26,7 +26,6 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=build-env /build/ln-static /tmp/
 COPY entrypoint.sh /tmp/
-COPY cmd.sh /tmp/
 
 WORKDIR /mnt/
 
