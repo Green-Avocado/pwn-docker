@@ -6,8 +6,8 @@ default:
 
 .PHONY: install
 install:
-	install -Dm755 src/pwndocker.py ${DESTDIR}/bin/pwndocker
-	install -Dm755 src/fetch-libc.py ${DESTDIR}/bin/fetch-libc
+	install -Dm755 bin/pwndocker.py ${DESTDIR}/bin/pwndocker
+	install -Dm755 bin/fetch-libc.py ${DESTDIR}/bin/fetch-libc
 
 .PHONY: remove
 remove:
