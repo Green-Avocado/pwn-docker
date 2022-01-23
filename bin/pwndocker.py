@@ -5,7 +5,7 @@ from optparse import OptionParser
 
 VERSION="3.0.0"
 
-parser = OptionParser(usage="usage: %prog [OPTIONS] BINARY [DEB]")
+parser = OptionParser(usage="usage: %prog [OPTIONS] EXEC_CMD [DEB]")
 parser.add_option(
         "-v", "--version",
         action="store_true", dest="version",
