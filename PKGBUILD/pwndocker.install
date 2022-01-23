@@ -1,4 +1,4 @@
-DOCKER_IMAGE = ghcr.io/green-avocado/pwndocker:main
+DOCKER_IMAGE=ghcr.io/green-avocado/pwndocker:main
 
 post_install() {
   sudo docker pull "$DOCKER_IMAGE"
