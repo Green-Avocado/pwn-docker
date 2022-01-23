@@ -18,5 +18,6 @@ if [ -n "$2" ]; then
     /tmp/ln-static /lib/i386-linux-gnu/ld-linux.so.2 /lib/ld-linux.so.2
 fi
 
+gdbserver --multi localhost:13337 &
 socat TCP-LISTEN:1337,fork,reuseaddr EXEC:"$1" &
 top
