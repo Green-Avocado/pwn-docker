@@ -1,0 +1,13 @@
+DOCKER_IMAGE = ghcr.io/green-avocado/pwndocker:main
+
+post_install() {
+  sudo docker pull "$DOCKER_IMAGE"
+}
+
+post_upgrade() {
+  sudo docker pull "$DOCKER_IMAGE"
+}
+
+post_remove() {
+  sudo docker image rm "$DOCKER_IMAGE"
+}
