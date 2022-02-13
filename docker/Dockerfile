@@ -19,6 +19,7 @@ FROM debian:8.10-slim
 RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install -y \
     gdbserver \
+    htop \
     libc6:i386 \
     ltrace \
     strace \

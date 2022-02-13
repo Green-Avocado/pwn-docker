@@ -25,4 +25,4 @@ fi
 
 gdbserver --multi localhost:13337 &
 socat TCP-LISTEN:1337,fork,reuseaddr EXEC:"$1" &
-top
+htop
