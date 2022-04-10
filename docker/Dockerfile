@@ -6,7 +6,7 @@ RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install -y \
     gdbserver \
     htop \
-    seccomp \
+    libseccomp2 \
     libc6:i386 \
     ltrace \
     strace \
