@@ -14,6 +14,7 @@ if [ -n "$2" ]; then
     dpkg --force-all -i "$2"
 fi
 
-gdbserver --multi localhost:13337 &
-socat TCP-LISTEN:1337,fork,reuseaddr EXEC:"$1" &
+(&>/dev/null gdbserver --multi localhost:13337 &)
+(&>/dev/null socat TCP-LISTEN:1337,fork,reuseaddr EXEC:"$1" &)
+
 htop
