@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM debian:8.10-slim
+FROM debian:10-slim
 
 RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install -y \
