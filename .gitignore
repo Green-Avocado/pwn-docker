@@ -1,4 +1,4 @@
-PKGBUILD/pkg/
-PKGBUILD/src/
-PKGBUILD/pwndocker/
-PKGBUILD/pwndocker-*.pkg*/
+pkg/
+src/
+pwndocker/
+pwndocker-*.pkg*/
