@@ -11,6 +11,7 @@ Requires that docker is installed and running.
 ### ArchLinux
 
 ```
+cd PKGBUILD
 makepkg -si
 ```
 
