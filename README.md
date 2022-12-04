@@ -29,7 +29,8 @@ Use `fetch-libc LIBC` to download a matching deb file from the Ubuntu archives.
 ### Create docker container
 
 Run `sudo pwndocker EXEC_CMD GLIBC_DEB` from your working directory.
-The binary should be given as a relative path.
+
+The arguments should be given as relative paths and the binary may need to be preceeded by `./` to be executed.
 
 ### Connect to docker container
 
