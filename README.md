@@ -24,14 +24,12 @@ make install
 
 ### Download glibc deb file
 
-Use `libc-fetch LIBC` to download a matching deb file from the Ubuntu archives.
+Use `fetch-libc LIBC` to download a matching deb file from the Ubuntu archives.
 
 ### Create docker container
 
-Run `sudo pwndocker EXEC_CMD` from your working directory.
+Run `sudo pwndocker EXEC_CMD GLIBC_DEB` from your working directory.
 The binary should be given as a relative path.
-
-Optionally pass a glibc deb file as a second argument.
 
 ### Connect to docker container
 
